@@ -1,0 +1,20 @@
+version: "3.9" # Version of the Docker Compose syntax
+
+services:
+  app:
+    build:
+      context: .
+      args:
+        - DEV=true
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./app:/app
+    command: >
+      python manage.py runserver 0.0.0.0:8000
+
+# Linting
+# docker compose run --rm app flake8
+
+# Creating a new Django project
+# docker compose run --rm app django-admin startproject app .
