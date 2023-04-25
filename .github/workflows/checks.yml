@@ -1,0 +1,23 @@
+---
+name: Checks # Name that will appear
+
+on: [push]
+
+jobs:
+  test-lint: # id of the job
+    name: Test and Lint # human friendly name you are going to see within the Github Actions interface
+    runs-on: ubuntu-20.04 # runner: OS we are going to run our jobs
+    steps: # the steps are the different things that run for the job
+      - name: Login to Docker Hub # step name you are going to see in the Github Action interface 
+        uses: docker/login-action@v1 # `uses` allows you to use another pre-made action (in Github Action repository)
+        with:
+          username: ${{ secrets.DOCKERHUB_USER }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Test
+        run: docker compose run --rm app python manage.py test
+      - name: Lint
+        run: docker-compose run --rm app flake8
+  # If any of these steps fail, the job that is running is going to fail
+  # Docker Compose is preinstalled in `ubuntu-20.04` runner
