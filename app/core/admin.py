@@ -45,3 +45,4 @@ class UserAdmin(BaseUserAdmin):
 
 # Without UserAdmin -> default
 admin.site.register(models.User, UserAdmin)
+admin.site.register(models.Recipe)
